@@ -12,5 +12,11 @@ class AnswerQuestion(BaseModel):
     answer : str = Field(description="250 word detailed answer to the question.")
     reflection : Reflection = Field(description="Your Reflection on the intial answer")
     search_quires: List[str] = Field(description="1-3 seach for researching improvements to address the critique of your current answer.")
+
+
+
+class ReviseAnswer(AnswerQuestion):
+    refernce: List[str] = Field(description="Citations moticating your updated answer")
+    
     
      
