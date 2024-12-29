@@ -3,7 +3,7 @@ from langchain_core.output_parsers.openai_tools import JsonOutputToolsParser, Py
 from langchain_core.messages import HumanMessage
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_ollama import ChatOllama
-from schemas import AnswerQuestion
+from schemas import AnswerQuestion, ReviseAnswer
 
 llm = ChatOllama(model="llama3.2")
 parser = JsonOutputToolsParser(return_id=True)
@@ -38,7 +38,17 @@ first_responder_prompt_template = actor_prompt_template.partial(
 
 first_responder = first_responder_prompt_template|llm.bind_tools(
     tools=[AnswerQuestion], tool_choice="AnswerQuestion"
+
 )
+
+
+revise_instruction ="""Revise your answer using the new information.
+                    - You should use the previous critique to add important information to your answer.
+                    - You Must include numerical critique
+
+
+
+"""
 
 if __name__ == "__main__":
     human_message = HumanMessage(
